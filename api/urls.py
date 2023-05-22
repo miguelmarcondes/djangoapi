@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import CulpritList, CulpritDetail, CulpritInsert
+from .views import CulpritList, CulpritDetail
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
-    path('', CulpritList.as_view(), name='culprit-list'),
-    path('<int:pk>', CulpritDetail.as_view(), name='culprit-detail'),
-    path('insert', CulpritInsert.as_view(), name='culprit-insert'),
+    path('api/', CulpritList.as_view()),
+    path('api/<int:pk>/', CulpritDetail.as_view()),
+    path('api/schema/', SpectacularAPIView.as_view(), name="schema"),
+    path('api/schema/docs/', SpectacularSwaggerView.as_view(url_name='schema'))
 ]

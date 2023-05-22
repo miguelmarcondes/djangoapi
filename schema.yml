@@ -1,0 +1,248 @@
+openapi: 3.0.3
+info:
+  title: Interpol FBI Database
+  version: 0.0.0
+paths:
+  /api/:
+    get:
+      operationId: api_list
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Culprit'
+          description: ''
+    post:
+      operationId: api_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Culprit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Culprit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Culprit'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Culprit'
+          description: ''
+  /api/{id}/:
+    get:
+      operationId: api_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Culprit'
+          description: ''
+    put:
+      operationId: api_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Culprit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Culprit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Culprit'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Culprit'
+          description: ''
+    patch:
+      operationId: api_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCulprit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCulprit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCulprit'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Culprit'
+          description: ''
+    delete:
+      operationId: api_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /swagger/:
+    get:
+      operationId: swagger_retrieve
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - corejson
+          - openapi
+          - swagger
+      tags:
+      - swagger
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Culprit:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        race:
+          type: string
+          maxLength: 20
+        gender:
+          type: string
+          maxLength: 20
+        nationality:
+          type: string
+          maxLength: 100
+        date_of_birth:
+          type: string
+          maxLength: 50
+        place_of_birth:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 500
+      required:
+      - date_of_birth
+      - description
+      - gender
+      - id
+      - name
+      - nationality
+      - place_of_birth
+      - race
+    PatchedCulprit:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        race:
+          type: string
+          maxLength: 20
+        gender:
+          type: string
+          maxLength: 20
+        nationality:
+          type: string
+          maxLength: 100
+        date_of_birth:
+          type: string
+          maxLength: 50
+        place_of_birth:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 500
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

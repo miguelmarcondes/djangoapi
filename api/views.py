@@ -23,8 +23,6 @@ class CulpritInsert(APIView):
     serializer_class = CulpritSerializer
 
     def post(self, request, *args, **kwargs):
-        print("CulpritInsert view accessed")
-        raise ValueError("Testing error handling")
         df = fbiRequest.fetch_data_from_fbi_api()
         serialized_data = CulpritSerializer(data=df.to_dict('records'), many=True)
 

@@ -1,17 +1,11 @@
 from django.db import models
 
-
-class Location(models.Model):
-    name = models.CharField(unique=True, max_length=100)
-
-    def __str__(self):
-        return self.name
-
-
-class Item(models.Model):
-    name = models.CharField(max_length=150)
-    date_added = models.DateField(auto_now_add=True)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
+class Culprit(models.Model):
+    name = models.CharField(max_length=200)
+    race = models.CharField(max_length=20)
+    gender = models.CharField(max_length=20)
+    nationality = models.CharField(max_length=100)
+    date_of_birth = models.CharField(max_length=10)
+    place_of_birth = models.CharField(max_length=200)
+    description = models.CharField(max_length=500)
+    created = models.DateTimeField(auto_now_add=True)

@@ -1,15 +1,7 @@
 from rest_framework import serializers
-from .models import Location, Item
+from .models import Culprit
 
-
-class ItemSerializer(serializers.ModelSerializer):
+class CulpritSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item
-        fields = ('__all__')
-
-
-class LocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Location
-        fields = ('__all__')
-
+        model = Culprit
+        fields = '__all__'

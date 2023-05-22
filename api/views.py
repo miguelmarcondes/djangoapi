@@ -1,31 +1,38 @@
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
+from .models import Culprit
+from .serializers import CulpritSerializer
+from .utils import fbiRequest
+from rest_framework.views import APIView
 
-from .models import Location, Item
-from .serializers import LocationSerializer, ItemSerializer
-
-
-class ItemList(generics.ListCreateAPIView):
-    serializer_class = ItemSerializer
+class CulpritList(generics.ListCreateAPIView):
+    serializer_class = CulpritSerializer
 
     def get_queryset(self):
-        queryset = Item.objects.all()
-        location = self.request.query_params.get('location')
-        if location is not None:
-            queryset = queryset.filter(location=location)
+        queryset = Culprit.objects.all()
         return queryset
 
 
-class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Item.objects.all()
-    serializer_class = ItemSerializer
+class CulpritDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CulpritSerializer
+    queryset = Culprit.objects.all()
 
+class CulpritInsert(APIView):
+    serializer_class = CulpritSerializer
 
-class LocationList(generics.ListCreateAPIView):
-    queryset = Location.objects.all()
-    serializer_class = LocationSerializer
+    def post(self, request, *args, **kwargs):
+        print("CulpritInsert view accessed")
+        raise ValueError("Testing error handling")
+        df = fbiRequest.fetch_data_from_fbi_api()
+        serialized_data = CulpritSerializer(data=df.to_dict('records'), many=True)
 
+        if serialized_data.is_valid():
+            serialized_data.save()
+            return Response(serialized_data.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serialized_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Location.objects.all()
-    serializer_class = LocationSerializer
-
+    def get(self, request, *args, **kwargs):
+        return Response({"detail": "Method \"GET\" not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)

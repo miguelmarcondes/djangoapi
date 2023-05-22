@@ -1,6 +1,5 @@
-# BASIC CRUD API
+# DJANGO REST API 
 
-> Django Rest Framework
+A project focused on syphoning data from FBI and INTERPOL API services, populating it in a private database and then displaying it to users by an API.
 
-
-A simple CRUD API example with Django
+Developed using Django, Django Rest Framework, Python, Pandas, DRF Spectacular and Swagger UI.
